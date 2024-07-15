@@ -37,10 +37,10 @@ add_filter('excerpt_length', function () {
     wp_dequeue_style( 'classic-theme-styles' );
 }, 20 );
 
-function wps_deregister_styles() {
+function wikko_deregister_styles() {
     wp_dequeue_style( 'global-styles' );
 }
-add_action( 'wp_enqueue_scripts', 'wps_deregister_styles', 100 );
+add_action( 'wp_enqueue_scripts', 'wikko_deregister_styles', 100 );
 
 function wikko_remove_wp_block_library_css(){
     wp_dequeue_style( 'wp-block-library' );
@@ -63,4 +63,21 @@ function wikko_remove_wp_block_library_css(){
 
 function wikko_dev_headless_setup() {
 	add_theme_support( 'title-tag' );
+}
+
+add_action('rest_api_init', 'register_rest_images' );function register_rest_images(){
+    register_rest_field( array('post'),
+        'featured_img_url',
+        array(
+            'get_callback'    => 'get_rest_featured_image',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+}function get_rest_featured_image( $object, $field_name, $request ) {
+    if( $object['featured_media'] ){
+        $img = wp_get_attachment_image_src( $object['featured_media'], 'app-thumb' );
+        return $img[0];
+    }
+    return false;
 }
