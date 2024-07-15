@@ -1,9 +1,12 @@
-<?php get_header(); ?>
-<?php wp_head(); ?>
+<?php 
+ get_header();
+ wp_head(); ?>
 </head>
 <body>
-<h1 class="text-3xl">Hello World from Wikko.dev Headless</h1>
-<?php get_footer(); ?>
-<?php wp_footer(); ?>
+<?php 
+get_template_part( 'template-parts/landingpage_layout' );
+get_footer(); 
+wp_footer(); 
+?>
 </body>
 </html>
